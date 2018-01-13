@@ -1,0 +1,16 @@
+{
+  "name": "packagedemo",
+  "version": "1.0.0",
+  "description": "bu bir test denemesi",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Murat Has",
+  "license": "ISC",
+  "dependencies": {
+    "cat-me": "^1.0.3",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  }
+}
