@@ -1,0 +1,11 @@
+<h3>Listeye Ekleme</h3>
+<ol>
+<% city.forEach(function(sehir){ %>
+    <li> <%= sehir %> </li>
+<% }); %>
+</ol>
+
+<form action="/sehirekle" method="post">
+<input name="yenisehir" type="text" id="" value="">
+<input type="submit" value="Ekle">
+</form>

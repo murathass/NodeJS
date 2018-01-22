@@ -1,0 +1,9 @@
+<h1>Sonuclar</h1>
+
+<% var results = data['results']; %>
+
+<ul>
+<% results.forEach(function(obj){ %>
+    <li><strong>Filmi adi:</strong> <%= obj['title']  %>   ---   Puanı : <%= obj['vote_count'] %> </li>
+<% }) %>
+</ul>

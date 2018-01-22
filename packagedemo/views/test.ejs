@@ -1,1 +1,10 @@
+<% include partials/header.ejs %>
 Request: <%= requestParam %>
+
+<% if( requestParam.toLowerCase() === 'mersin' ){ %>
+    <h3>MERSİN</h3>
+<% }else{ %>
+    <h3>OFF İYİ </h3>
+<% } %>
+
+<% include partials/footer.ejs %>
