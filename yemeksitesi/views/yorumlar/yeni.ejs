@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+            <h1 style="text-align:center"><%= yemek.adi %></h1>
+            <h1 style="text-align:center">Yeni Yorum Ekle</h1>
+            <div style="width:30%;margin:30px auto">
+                <form action="/yemekler/<%= yemek._id %>/yorumlar" method="post">
+                    <input class="form-control" type="text" name="yorum[author]" placeholder="yorum yazari"><br>
+                    <input class="form-control" type="text" name="yorum[text]" placeholder="yorum"><br>
+                    <input class="btn btn-large btn-primary btn-block" type="submit" value="Gönder">
+                </form>
+            </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

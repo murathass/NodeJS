@@ -1,0 +1,18 @@
+<% include ../partials/header.ejs %>
+<div class="container-fluid">
+    <h1>Show Route</h1>
+<h3><%= yemek.adi %></h3>
+<img src="<%= yemek.resim %>">
+<p><p><%= yemek.aciklama %></p></p>
+
+<% yemek.posts.forEach(function(yorum){ %>
+    <strong> <%= yorum.author %> </strong> --- <strong> <%= yorum.text %> </strong>
+<% }); %>
+
+<p >
+    <a class="btn btn-primary" href="/yemekler/<%= yemek._id %>/yorumlar/yeni">Yorum Ekle</a>
+</p>
+</div>
+
+<% include ../partials/footer.ejs %>
+

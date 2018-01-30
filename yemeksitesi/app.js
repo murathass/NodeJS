@@ -2,20 +2,15 @@ var express = require('express');
 var http = express();
 var bodyParser = require('body-parser');
 var moongoose = require('mongoose');
+var Yemek = require('./models/yemek');
+var Yorum = require('./models/yorum');
+var cookie = require('./cookie');
+
+cookie();
 
 moongoose.connect("mongodb://localhost/yemekSitesi");
 http.set('view engine','ejs');
-http.use(bodyParser.urlencoded({ extended: true }))
-
-var yemekSchema = moongoose.Schema(
-    {
-        adi: String,
-        resim: String,
-        aciklama: String
-    }
-);
-
-var Yemek = moongoose.model('food',yemekSchema);
+http.use(bodyParser.urlencoded({ extended: true }));
 
 http.get('/',function(req,res){
     res.render('home');
@@ -28,7 +23,7 @@ http.get('/yemekler',function(req,res){
         }else{
             console.log('************************************');
             console.log(db);
-            res.render("yemekler",{yemekler: db});
+            res.render("yemekler/yemekler",{yemekler: db});
         }
     });
     
@@ -57,15 +52,48 @@ http.post("/yemekler",function(req,res){
 });
 
 http.get("/yemekler/yeni",function(req,res){
-    res.render("yeni");
+    res.render("yemekler/yeni");
 });
 
 http.get("/yemekler/:id",function(req,res){
-    Yemek.findById(req.params.id , function(err,db){
+    Yemek.findById(req.params.id).populate('posts').exec(function(err,db){
         if(err){
             console.log(err);
         }else{
-            res.render('goster',{yemek: db});
+            res.render('yemekler/goster',{yemek: db});
+        }
+    });
+});
+
+http.get("/yemekler/:id/yorumlar/yeni",function(req,res){
+    Yemek.findOne({'_id' :req.params.id},function(err,db){
+        if(err){
+            console.log(err);
+        }else{
+            console.log('db:'+db);
+            res.render('yorumlar/yeni',{yemek: db});
+        }
+    });
+});
+
+http.post("/yemekler/:id/yorumlar",function(req,res){
+    Yemek.findOne({ '_id' : req.params.id },function(err,bulunanYemek){
+        if(err){
+            console.log(err);
+            res.redirect('/yemekler');
+        }else{
+            console.log('>>>>>  '+req.body.yorum);
+            Yorum.create(req.body.yorum,function(err,yorum){
+                if(err){
+                    console.log(err);
+                    res.redirect('/yemekler');
+                }else{
+                    bulunanYemek.posts.push(yorum);
+                    bulunanYemek.save();
+                    res.redirect('/yemekler/'+bulunanYemek._id);
+                }
+
+            });
         }
     });
 });
